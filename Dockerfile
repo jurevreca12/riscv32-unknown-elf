@@ -30,4 +30,7 @@ RUN cd /home/riscv-gnu-toolchain && \
     make -j$(nproc)
 RUN apt-get remove -y git
 RUN rm -rf /home/riscv-gnu-toolchain
+
+FROM ubuntu:24.04
+COPY --from=0 /opt/riscv /opt/riscv
 ENV PATH="/opt/riscv/bin/:${PATH}"
