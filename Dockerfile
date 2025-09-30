@@ -28,9 +28,12 @@ RUN git clone https://github.com/riscv/riscv-gnu-toolchain /home/riscv-gnu-toolc
 RUN cd /home/riscv-gnu-toolchain && \
     ./configure --prefix=/opt/riscv --with-arch=rv32i --with-abi=ilp32 && \
     make -j$(nproc)
-RUN apt-get remove -y git
-RUN rm -rf /home/riscv-gnu-toolchain
 
 FROM ubuntu:24.04
+RUN apt-get update -y && \
+    apt-get install -y  libmpc-dev \
+			libmpfr-dev \
+			libgmp-dev \
+			zlib1g-dev    
 COPY --from=0 /opt/riscv /opt/riscv
 ENV PATH="/opt/riscv/bin/:${PATH}"
